@@ -267,7 +267,7 @@ const Overview = () => {
         />
         <StatCard
           title="Feed Weight"
-          value={latest?.weight_kg || "--"}
+          value={latest?.weight_kg != null ? Math.max(0, latest.weight_kg) : "--"}
           unit="kg"
           icon={Scale}
           color="bg-indigo-500"

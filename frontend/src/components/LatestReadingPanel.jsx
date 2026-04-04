@@ -11,6 +11,14 @@ function formatValue(value, digits = 1) {
   }).format(num);
 }
 
+function normalizeWeightKg(value) {
+  const num = Number(value);
+  if (!Number.isFinite(num)) {
+    return value;
+  }
+  return Math.max(0, num);
+}
+
 function getAlertTone(severity) {
   const normalized = String(severity || "").toLowerCase();
 
@@ -42,7 +50,11 @@ export default function LatestReadingPanel({ latest, formattedTimestamp }) {
     { label: "Humidity", value: formatValue(latest.humidity_pct), unit: "%" },
     { label: "CO2", value: formatValue(latest.co2_ppm, 0), unit: "ppm" },
     { label: "Light", value: formatValue(latest.light_lux, 0), unit: "lux" },
-    { label: "Feed Weight", value: formatValue(latest.weight_kg, 2), unit: "kg" },
+    {
+      label: "Feed Weight",
+      value: formatValue(normalizeWeightKg(latest.weight_kg), 2),
+      unit: "kg",
+    },
   ];
 
   return (
